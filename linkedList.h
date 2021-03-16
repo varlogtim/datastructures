@@ -1,8 +1,9 @@
 #include <bits/stdc++.h>
 
+template <class T>
 class Node {
   public:
-    Node(int v) {
+    Node(T v) {
         _val = v;
     };
     ~Node() {
@@ -30,44 +31,45 @@ class Node {
     void setPrev(Node *n) {
         _prev = n;
     }
-    int getVal() {
+    T getVal() {
         return _val;
     };
-    void setVal(int v) {
+    void setVal(T v) {
         _val = v;
     };
   private:
-    int _val;
+    T _val;
     Node *_next = nullptr;
     Node *_prev = nullptr;
 };
 
 
 // Doubly linked list impl.
+template <class T>
 class LinkedList 
 {
   public:
     LinkedList();
     ~LinkedList() {
-        Node *node = _head;
-        Node *curNode = node;
+        Node<T> *node = _head;
+        Node<T> *curNode = node;
         while(node->getNext() != nullptr) {
             node = curNode->getNext();
             delete curNode;
             _numNodes--;  // debug
         }
     };
-    void push(int v);
-    void pushRight(int v);
-    void pushLeft(int v);
-    int pop();
-    int popRight();
-    int popLeft();
+    void push(T v);
+    void pushRight(T v);
+    void pushLeft(T v);
+    T pop();
+    T popRight();
+    T popLeft();
     uint64_t getLength();
     std::string str();
   private:
-    void initFirst(Node *n);
-    Node *_head = nullptr;
-    Node *_tail = nullptr;
+    void initFirst(Node<T> *n);
+    Node<T> *_head = nullptr;
+    Node<T> *_tail = nullptr;
     uint64_t _numNodes = 0;
 };
