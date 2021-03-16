@@ -1,25 +1,29 @@
 #include <bits/stdc++.h>
 #include "linkedList.h"
 
-LinkedList::LinkedList() {}
+template <class T>
+LinkedList<T>::LinkedList() {}
 
+template <class T>
 void
-LinkedList::initFirst(Node *n)
+LinkedList<T>::initFirst(Node<T> *n)
 {
     _head = n;
     _tail = n;
 }
 
+template <class T>
 void
-LinkedList::push(int v)
+LinkedList<T>::push(T v)
 {
-    LinkedList::pushRight(v);   
+    LinkedList<T>::pushRight(v);   
 }
 
+template <class T>
 void
-LinkedList::pushRight(int v)
+LinkedList<T>::pushRight(T v)
 {
-    Node *node = new Node(v);
+    Node<T> *node = new Node<T>(v);
     if (_numNodes != 0) {
         _tail->setNext(node);
         node->setPrev(_tail);
@@ -30,10 +34,11 @@ LinkedList::pushRight(int v)
     _numNodes++;
 }
 
+template <class T>
 void
-LinkedList::pushLeft(int v)
+LinkedList<T>::pushLeft(T v)
 {
-    Node *node = new Node(v);
+    Node<T> *node = new Node<T>(v);
     if (_numNodes != 0) {
         _head->setPrev(node);
         node->setNext(_head);
@@ -44,44 +49,46 @@ LinkedList::pushLeft(int v)
     _numNodes++;
 }
 
-int
-LinkedList::pop()
+template <class T>
+T LinkedList<T>::pop()
 {
     // what about when the list is empty?
-    return LinkedList::popRight();
+    return LinkedList<T>::popRight();
 }
 
-int
-LinkedList::popRight()
+template <class T>
+T LinkedList<T>::popRight()
 {
-    int ret = _tail->getVal();
+    T ret = _tail->getVal();
     delete _tail;
     _numNodes--;
     return ret;
 }
 
-int
-LinkedList::popLeft()
+template <class T>
+T LinkedList<T>::popLeft()
 {
-    int ret = _head->getVal();
+    T ret = _head->getVal();
     delete _head;
     _numNodes--;
     return ret;
 }
 
+template <class T>
 uint64_t
-LinkedList::getLength()
+LinkedList<T>::getLength()
 {
     return _numNodes;
 }
 
+template <class T>
 std::string
-LinkedList::str()
+LinkedList<T>::str()
 {
     std::stringstream ss;
-    ss << "[";
+    ss << "[ ";
 
-    Node *node = _head;
+    Node<T> *node = _head;
     while (node != nullptr) {
         ss << node->getVal();
         node = node->getNext();
@@ -89,23 +96,63 @@ LinkedList::str()
             ss << " -> ";
         }
     }
-    ss << "]";
+    ss << " ]";
     return ss.str();
+}
+
+void testInts()
+{
+    std::cout << "Testing <int>:" << std::endl;
+    LinkedList<int> *dll = new LinkedList<int>();
+
+    dll->push(4);
+    std::cout << "push(4):\t" << dll->str() << std::endl;
+
+    dll->push(12);
+    std::cout << "push(12):\t" << dll->str() << std::endl;
+
+    dll->push(-24);
+    std::cout << "push(-24):\t" << dll->str() << std::endl;
+
+    std::cout << "pop(): " << dll->pop() << ":\t" << dll->str() << std::endl;
+
+    dll->pushLeft(17);
+    std::cout << "pushLeft(17)\t" << dll->str() << std::endl;
+
+    dll->pushLeft(6);
+    std::cout << "pushLeft(6)\t" << dll->str() << std::endl;
+
+}
+
+void testStrings()
+{
+    std::cout << "Testing <std::string>:" << std::endl;
+    LinkedList<std::string> *dll = new LinkedList<std::string>();
+
+    dll->push("foo");
+    std::cout << "push(\"foo\"):\t" << dll->str() << std::endl;
+
+    dll->push("bar");
+    std::cout << "push(\"bar\"):\t" << dll->str() << std::endl;
+
+    dll->push("gaz");
+    std::cout << "push(\"gaz\"):\t" << dll->str() << std::endl;
+
+    std::cout << "pop(): " << dll->pop() << ":\t" << dll->str() << std::endl;
+
+    dll->pushLeft("tim");
+    std::cout << "pushLeft(\"tim\")\t" << dll->str() << std::endl;
+
+    dll->pushLeft("goo");
+    std::cout << "pushLeft(\"goo\")\t" << dll->str() << std::endl;
+
 }
 
 int main(int argc, char *argv[])
 {
     std::cout << "Hello from main" << std::endl;
-    LinkedList *dll = new LinkedList();
-
-    dll->push(1);
-    dll->push(2);
-    dll->push(3);
-    std::cout << dll->str() << std::endl;
-    std::cout << "DLL length: " << dll->getLength() << std::endl;
-    int test = dll->pop();
-    std::cout << "popped: " << test 
-        << " DLL length: " << dll->getLength() << std::endl;
-    std::cout << dll->str() << std::endl;
+    std::cout << std::endl;
+    testInts();
+    testStrings();
     return 0;
 }
